@@ -46,7 +46,7 @@ public class JpaApplication implements CommandLineRunner {
 	public void delete(){
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Please write the id to delete");
-		long id = scanner.nextLong();
+		Long id = scanner.nextLong();
 		personRepository.deleteById(id);
 		/////
 		Optional<Person>optionalPerson = personRepository.findById(id);
@@ -56,6 +56,13 @@ public class JpaApplication implements CommandLineRunner {
 		}
 		////
 		optionalPerson.ifPresentOrElse( personRepository::delete,()-> System.out.println("The person doesn't exits"));
+	}
+	@Transactional(readOnly = true)
+	public void personalizeQueries(){
+		Scanner scanner = new Scanner(System.in);
+		Long id = scanner.nextLong();
+		String name = personRepository.getNameById(id);
+		String fullName = personRepository.getFullNameById(id);
 	}
 	@Transactional
 	public void update(){
