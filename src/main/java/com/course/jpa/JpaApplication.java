@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
 
 @SpringBootApplication
 public class JpaApplication implements CommandLineRunner {
@@ -42,6 +43,21 @@ public class JpaApplication implements CommandLineRunner {
 		personRepository.save(person);
 	}
 	@Transactional
+	public void delete(){
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Please write the id to delete");
+		long id = scanner.nextLong();
+		personRepository.deleteById(id);
+		/////
+		Optional<Person>optionalPerson = personRepository.findById(id);
+		if(optionalPerson.isPresent()){
+			Person person = optionalPerson.get();
+			personRepository.delete(person);
+		}
+		////
+		optionalPerson.ifPresentOrElse( personRepository::delete,()-> System.out.println("The person doesn't exits"));
+	}
+	@Transactional
 	public void update(){
 		Person person = null;
 		Optional<Person>optionalPerson = personRepository.findById(1L);
@@ -52,6 +68,7 @@ public class JpaApplication implements CommandLineRunner {
 			System.out.println(personDb);
 		}
 	}
+	@Transactional(readOnly = true)
 	public void list(){
 		//List<Person>persons = (List<Person>) personRepository.byProgrammingLanguage("Java");
 		List<Person>persons = (List<Person>) personRepository.findByProgrammingLanguageAndName("Java","Andres");
