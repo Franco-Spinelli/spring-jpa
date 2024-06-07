@@ -9,6 +9,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 public interface IPersonRepository extends CrudRepository<Person,Long> {
+    @Query("SELECT count(p.name) FROM Person p")
+    Long allNameCount();
     @Query("SELECT count(distinct(p.programmingLanguage)) FROM Person p")
     Long findAllProgrammingLanguageDistinctCount();
     @Query("SELECT distinct(p.programmingLanguage) FROM Person p")
