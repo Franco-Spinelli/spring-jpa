@@ -9,6 +9,14 @@ import java.util.Objects;
 import java.util.Optional;
 
 public interface IPersonRepository extends CrudRepository<Person,Long> {
+    @Query("SELECT count(distinct(p.programmingLanguage)) FROM Person p")
+    Long findAllProgrammingLanguageDistinctCount();
+    @Query("SELECT distinct(p.programmingLanguage) FROM Person p")
+    List<String>findAllProgrammingLanguageDistinct();
+    @Query("SELECT p.name FROM Person p")
+    List<String>findAllNames();
+    @Query("SELECT distinct(p.name) FROM Person p")
+    List<String>findAllNamesDistinct();
     @Query("SELECT p.name FROM Person p where p.id=?1")
     String getNameById(Long id);
     @Query("SELECT concat(p.name, ' ', p.lastname )as fullName FROM Person p where p.id=?1")

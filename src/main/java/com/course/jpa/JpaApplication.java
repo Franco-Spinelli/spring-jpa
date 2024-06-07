@@ -58,7 +58,12 @@ public class JpaApplication implements CommandLineRunner {
 		optionalPerson.ifPresentOrElse( personRepository::delete,()-> System.out.println("The person doesn't exits"));
 	}
 	@Transactional(readOnly = true)
-	public void personalizeQueries(){
+	public void personalizedQueriesDistinct(){
+		List<String>names = personRepository.findAllNames();
+		names.forEach(System.out::println);
+	}
+	@Transactional(readOnly = true)
+	public void personalizedQueries(){
 		Scanner scanner = new Scanner(System.in);
 		Long id = scanner.nextLong();
 		String name = personRepository.getNameById(id);
