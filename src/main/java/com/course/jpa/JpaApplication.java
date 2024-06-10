@@ -28,6 +28,11 @@ public class JpaApplication implements CommandLineRunner {
 		findOne();
 
 	}
+	@Transactional(readOnly = true)
+	public void personalizedQueriesConcatUpperAndLowerCase(){
+		List<String>names = personRepository.findAllFullNameConcat();
+		names.forEach(System.out::println);
+	}
 
 	public void findOne(){
 		Person person = null;

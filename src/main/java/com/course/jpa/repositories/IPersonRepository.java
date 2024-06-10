@@ -9,27 +9,48 @@ import java.util.Objects;
 import java.util.Optional;
 
 public interface IPersonRepository extends CrudRepository<Person,Long> {
+    @Query("SELECT lower(p.name || ' ' || p.lastname) FROM Person p")
+    List<String> findAllFullNameConcatLower();
+
+    @Query("SELECT upper(p.name || ' ' || p.lastname) FROM Person p")
+    List<String> findAllFullNameConcatUpper();
+
+    //@Query("SELECT concat(p.name, ' ', p.lastname )as fullName FROM Person p")
+    @Query("SELECT p.name || ' ' || p.lastname FROM Person p")
+    List<String> findAllFullNameConcat();
+
     @Query("SELECT count(p.name) FROM Person p")
     Long allNameCount();
+
     @Query("SELECT count(distinct(p.programmingLanguage)) FROM Person p")
     Long findAllProgrammingLanguageDistinctCount();
+
     @Query("SELECT distinct(p.programmingLanguage) FROM Person p")
     List<String>findAllProgrammingLanguageDistinct();
+
     @Query("SELECT p.name FROM Person p")
     List<String>findAllNames();
+
     @Query("SELECT distinct(p.name) FROM Person p")
     List<String>findAllNamesDistinct();
+
     @Query("SELECT p.name FROM Person p where p.id=?1")
     String getNameById(Long id);
+
     @Query("SELECT concat(p.name, ' ', p.lastname )as fullName FROM Person p where p.id=?1")
     String getFullNameById(Long id);
+
     @Query("select p from Person p where p.id=?1")
     Optional<Person>findOne(Long id);
+
     @Query("select p from Person p where p.name=?1")
     Optional<Person>findOneName(String name);
+
     @Query("select p from Person p where p.name like %?1%")
     Optional<Person>findOneLikeName(String name);
+
     Optional<Person>findByNameContaining(String name);
+
     //Find by programming language using @QueryMethod
     List<Person>findByProgrammingLanguage(String programmingLanguage);
 
@@ -39,10 +60,13 @@ public interface IPersonRepository extends CrudRepository<Person,Long> {
     //Find by programming language using @Query
     @Query("select p from Person p where p.programmingLanguage=?1")
     List<Person>byProgrammingLanguage(String programmingLanguage);
+
     @Query("select p.name, p.programmingLanguage from Person p")
     List<Object[]> getPersonData();
+
     @Query("select p.name, p.programmingLanguage from Person p where p.name=?1")
     List<Object[]> getPersonData(String name);
+
     @Query("select p.name, p.programmingLanguage from Person p where p.name=?1 and p.programmingLanguage=?2")
     List<Object[]> getPersonData(String name, String programmingLanguage);
 }
