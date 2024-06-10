@@ -31,9 +31,14 @@ public class JpaApplication implements CommandLineRunner {
 
 	@Transactional(readOnly = true)
 	public void queriesFunctionAggregation(){
-		Long count = personRepository.totalPerson();
-		Long min = personRepository.minId();
-		Long max = personRepository.maxId();
+		Long count = personRepository.getTotalPerson();
+		Long min = personRepository.getMinId();
+		Long max = personRepository.getMaxId();
+		List<Object[]> regs = personRepository.getPersonNameLength();
+		regs.forEach(reg->{
+			String name = (String) reg[0];
+			Integer length = (Integer) reg[1];
+		});
 	}
 	@Transactional(readOnly = true)
 	public void personalizedQueriesBetween(){

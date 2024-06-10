@@ -9,13 +9,21 @@ import java.util.Objects;
 import java.util.Optional;
 
 public interface IPersonRepository extends CrudRepository<Person,Long> {
+    @Query("select p.name, length(p.name) from Person p where length(p.name)=(select min(length(p.name) from Person p)")
+    public List<Object[]>getShorterName();
+    @Query("select min(length(p.name)) from Person p")
+    public Integer getMinLengthName();
+    @Query("select max(length(p.name)) from Person p")
+    public Integer getMaxLengthName();
+    @Query("select p.name, length(p.name) from Person p")
+    public List<Object[]> getPersonNameLength();
     @Query("select count(p) from Person p")
-    Long totalPerson();
+    Long getTotalPerson();
     @Query("select min(p.id) from Person p")
-    Long minId();
+    Long getMinId();
 
     @Query("select max(p.id) from Person p")
-    Long maxId();
+    Long getMaxId();
 
     //Between with QueryMethod
     List<Person>findByIdBetweenOrderByIdAsc(Long id1, Long id2);
