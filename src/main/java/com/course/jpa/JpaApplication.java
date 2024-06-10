@@ -28,6 +28,18 @@ public class JpaApplication implements CommandLineRunner {
 		findOne();
 
 	}
+
+	@Transactional(readOnly = true)
+	public void queriesFunctionAggregation(){
+		Long count = personRepository.totalPerson();
+		Long min = personRepository.minId();
+		Long max = personRepository.maxId();
+	}
+	@Transactional(readOnly = true)
+	public void personalizedQueriesBetween(){
+		List<Person>personList = personRepository.findAllBetweenId(2L,5L);
+		personList.forEach(System.out::println);
+	}
 	@Transactional(readOnly = true)
 	public void personalizedQueriesConcatUpperAndLowerCase(){
 		List<String>names = personRepository.findAllFullNameConcat();

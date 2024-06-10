@@ -9,6 +9,21 @@ import java.util.Objects;
 import java.util.Optional;
 
 public interface IPersonRepository extends CrudRepository<Person,Long> {
+    @Query("select count(p) from Person p")
+    Long totalPerson();
+    @Query("select min(p.id) from Person p")
+    Long minId();
+
+    @Query("select max(p.id) from Person p")
+    Long maxId();
+
+    //Between with QueryMethod
+    List<Person>findByIdBetweenOrderByIdAsc(Long id1, Long id2);
+    List<Person>findByIdBetween(Long id1, Long id2);
+    List<Person>findByNameBetween(String id1, String id2);
+    @Query("SELECT p form Person where p.id between ?1 and ?2 order by p.name")
+    List<Person>findAllBetweenId(Long id1, Long id2);
+
     @Query("SELECT lower(p.name || ' ' || p.lastname) FROM Person p")
     List<String> findAllFullNameConcatLower();
 
