@@ -2,6 +2,7 @@ package com.course.jpa.entities;
 
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name = "persons")
 public class Person {
@@ -12,6 +13,8 @@ public class Person {
     private String lastname;
     @Column(name = "programming_language")
     private String programmingLanguage;
+    @Embedded
+    private Audit audit = new Audit();
 
     public Person() {
     }
@@ -22,6 +25,7 @@ public class Person {
         this.lastname = lastname;
         this.programmingLanguage = programmingLanguage;
     }
+
 
     public Long getId() {
         return id;
@@ -54,4 +58,6 @@ public class Person {
     public void setProgrammingLanguage(String programmingLanguage) {
         this.programmingLanguage = programmingLanguage;
     }
+
+
 }
